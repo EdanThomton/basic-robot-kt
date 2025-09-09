@@ -1,0 +1,51 @@
+package frc.robot
+
+import edu.wpi.first.math.geometry.Rotation2d
+import edu.wpi.first.math.kinematics.SwerveModulePosition
+import edu.wpi.first.wpilibj2.command.RunCommand
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick
+import frc.robot.configs.SwerveDriveConfigs
+import team.vaevictis.odometry.NavXOdometry
+import team.vaevictis.odometry.gyros.NavXGyro
+import team.vaevictis.subsystems.maxswerve.MaxSwerveDrive
+
+
+object RobotContainer {
+
+    val navX: NavXGyro = NavXGyro();
+    val odometry: NavXOdometry = NavXOdometry(
+        navX,
+        arrayOf(
+            SwerveModulePosition(0.0, Rotation2d(0.0)),
+            SwerveModulePosition(0.0, Rotation2d(0.0)),
+            SwerveModulePosition(0.0, Rotation2d(0.0)),
+            SwerveModulePosition(0.0, Rotation2d(0.0))
+        ),
+        SwerveDriveConfigs.SWERVE_CONFIG.kinematics
+    );
+    val maxSwerveDrive: MaxSwerveDrive = MaxSwerveDrive(SwerveDriveConfigs.SWERVE_CONFIG, odometry);
+
+    val leftJoystick: CommandJoystick = CommandJoystick(0);
+    val rightJoystick: CommandJoystick = CommandJoystick(1);
+    val altJoystick: CommandJoystick = CommandJoystick(2);
+
+    init {
+        configureBindings()
+    }
+
+    private fun configureBindings() {
+
+        maxSwerveDrive.defaultCommand = RunCommand({
+            maxSwerveDrive.drive(
+                leftJoystick.y,
+                leftJoystick.x,
+                rightJoystick.x
+            );
+        },maxSwerveDrive);
+
+        leftJoystick.button(1).onTrue(maxSwerveDrive.toggleFieldcentric);
+        leftJoystick.button(2).onTrue(maxSwerveDrive.toggleRotCorrection);
+        leftJoystick.button(3).onTrue(maxSwerveDrive.toggleSlewLimiter);
+        rightJoystick.button(4).onTrue(maxSwerveDrive.resetFieldcentric);
+    }
+}
