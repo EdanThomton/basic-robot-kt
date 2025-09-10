@@ -8,6 +8,7 @@ import frc.robot.configs.SwerveDriveConfigs
 import team.vaevictis.odometry.LimelightOdometry
 import team.vaevictis.odometry.gyros.NavXGyro
 import team.vaevictis.subsystems.maxswerve.MaxSwerveDrive
+import kotlin.math.abs
 
 /**
  * Overall robot container
@@ -41,7 +42,7 @@ object RobotContainer {
      * @param deadband deadband zone
      */
     private fun applyDeadband(input: Double, deadband: Double): Double {
-        if(Math.abs(input) < deadband) return 0.0;
+        if(abs(input) < deadband) return 0.0;
         return input;
     }
 
@@ -52,9 +53,9 @@ object RobotContainer {
 
         maxSwerveDrive.defaultCommand = RunCommand({
             maxSwerveDrive.drive(
-                -applyDeadband(leftJoystick.y, 0.05),
-                -applyDeadband(leftJoystick.x, 0.05),
-                -applyDeadband(rightJoystick.x, 0.05),
+                applyDeadband(leftJoystick.y, 0.05),
+                applyDeadband(leftJoystick.x, 0.05),
+                applyDeadband(-rightJoystick.x, 0.05),
             );
         },maxSwerveDrive);
 

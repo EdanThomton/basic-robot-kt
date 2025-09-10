@@ -10,9 +10,10 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition
 import edu.wpi.first.math.kinematics.SwerveModuleState
 import edu.wpi.first.wpilibj.DriverStation
 import edu.wpi.first.wpilibj.DriverStation.Alliance
-import edu.wpi.first.wpilibj2.command.Commands
+import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.SubsystemBase
-import team.vaevictis.networktables.SubsystemTable
+import team.vaevictis.networktables.NetworkTableInstanceKT
+import team.vaevictis.networktables.NetworkTableKT
 import team.vaevictis.odometry.SwerveDriveOdometry
 import team.vaevictis.subsystems.DriveSubsystem
 
@@ -30,7 +31,7 @@ class MaxSwerveDrive(
     val odometry: SwerveDriveOdometry
 ): SubsystemBase(), DriveSubsystem {
 
-    private val table: SubsystemTable = SubsystemTable("MaxSwerveDrive");
+    private val table: NetworkTableKT = NetworkTableInstanceKT.DEFAULT["subsystems/MaxSwerveDrive"]
 
     private val frontLeftWheel:  MaxWheelModule = MaxWheelModule(config.frontLeft);
     private val frontRightWheel: MaxWheelModule = MaxWheelModule(config.frontRight);
@@ -75,21 +76,21 @@ class MaxSwerveDrive(
         };
 
     /// Toggle Slew Limiting
-    val toggleSlewLimiter = runOnce {
+    val toggleSlewLimiter: Command = runOnce {
         limitSlew = !limitSlew;
         limitX.reset(0.0);
         limitY.reset(0.0);
     }
     /// Toggle Rotation Correction
-    val toggleRotCorrection = runOnce {
+    val toggleRotCorrection: Command = runOnce {
         correctRot = !correctRot;
     }
     /// Toggle Fieldcentric Driving
-    val toggleFieldcentric = runOnce {
+    val toggleFieldcentric: Command = runOnce {
         fieldCentric = !fieldCentric;
     }
     /// Set Fieldcentrism
-    val resetFieldcentric = runOnce {
+    val resetFieldcentric: Command = runOnce {
         odometry.gyro.zeroHeading();
         targetRot = odometry.gyro.heading.radians;
     }
@@ -181,37 +182,25 @@ class MaxSwerveDrive(
      */
     override fun periodic() {
 
-        val modulePositions = positions;
-
         // update odometry
-        odometry.update(modulePositions);
+        odometry.update(positions);
 
         // networktable fun!
-        if(modulePositions != null) {
+        table["swerveStates"].swerveModuleStateArray = arrayOf(
+            frontLeftWheel.state,
+            frontRightWheel.state,
+            backLeftWheel.state,
+            backRightWheel.state,
+        )
 
-            table["frontLeftAngle"].setDouble(frontLeftWheel.state.speedMetersPerSecond);
-            table["frontLeftSpeed"].setDouble(frontLeftWheel.state.angle.radians);
+        table["heading"].double = odometry.gyro.heading.radians
+        table["pose"].pose2d = odometry.pose
 
-            table["frontRightAngle"].setDouble(frontRightWheel.state.speedMetersPerSecond);
-            table["frontRightSpeed"].setDouble(frontRightWheel.state.angle.radians);
+        table["targetedRot"].double = targetRot
 
-            table["backLeftAngle"].setDouble(backLeftWheel.state.speedMetersPerSecond);
-            table["backLeftSpeed"].setDouble(backLeftWheel.state.angle.radians);
-
-            table["backRightAngle"].setDouble(backRightWheel.state.speedMetersPerSecond);
-            table["backRightSpeed"].setDouble(backRightWheel.state.angle.radians);
-
-        }
-
-        table["heading"].setDouble(odometry.gyro.heading.radians);
-        table["pos/x"].setDouble(odometry.pose.x);
-        table["pos/y"].setDouble(odometry.pose.y);
-
-        table["targetedRot"].setDouble(targetRot);
-
-        table["isFieldCentric"].setBoolean(fieldCentric);
-        table["isCorrectingRot"].setBoolean(correctRot);
-        table["isLimitingSlew"].setBoolean(limitSlew);
+        table["isFieldCentric"].boolean = fieldCentric
+        table["isCorrectingRot"].boolean = correctRot
+        table["isLimitingSlew"].boolean = limitSlew
 
     }
 }

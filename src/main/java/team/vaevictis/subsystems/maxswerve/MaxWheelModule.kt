@@ -16,6 +16,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase
+import kotlin.math.abs
 
 /**
  * Single MaxSwerve Module
@@ -78,7 +79,7 @@ class MaxWheelModule(
 
     private fun setWheelPosition(speed: Double, angle: Double) {
         var realSpeed: Double = speed;
-        if(Math.abs(speed) < 0.1) {
+        if(abs(speed) < 0.1) {
             realSpeed = 0.1;
         }
 
