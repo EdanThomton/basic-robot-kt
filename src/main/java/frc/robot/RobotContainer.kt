@@ -33,13 +33,18 @@ object RobotContainer {
         configureBindings()
     }
 
+    private fun applyDeadband(input: Double, deadband: Double): Double {
+        if(Math.abs(input) < deadband) return 0.0;
+        return input;
+    }
+
     private fun configureBindings() {
 
         maxSwerveDrive.defaultCommand = RunCommand({
             maxSwerveDrive.drive(
-                leftJoystick.y,
-                leftJoystick.x,
-                rightJoystick.x
+                -applyDeadband(leftJoystick.y, 0.05),
+                -applyDeadband(leftJoystick.x, 0.05),
+                -applyDeadband(rightJoystick.x, 0.05),
             );
         },maxSwerveDrive);
 

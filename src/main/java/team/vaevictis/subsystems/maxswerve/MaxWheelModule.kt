@@ -15,10 +15,11 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj2.command.SubsystemBase
 
 class MaxWheelModule(
     val config: MaxWheelConfig
-) {
+): SubsystemBase() {
 
     val speedMotor: SparkMax = SparkMax(config.speedID, MotorType.kBrushless);
     val angleMotor: SparkMax = SparkMax(config.angleID, MotorType.kBrushless);
@@ -71,7 +72,6 @@ class MaxWheelModule(
 
             setWheelPosition(value.speedMetersPerSecond, value.angle.radians);
         }
-
 
     private fun setWheelPosition(speed: Double, angle: Double) {
         var realSpeed: Double = speed;

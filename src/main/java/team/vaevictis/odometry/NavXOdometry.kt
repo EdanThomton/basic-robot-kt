@@ -46,7 +46,7 @@ class NavXOdometry(
 
         if(DriverStation.isEnabled()) {
 
-            poseEstimator.update(gyro.heading, modulePositions);
+            poseEstimator.update(gyro.heading, this@NavXOdometry.modulePositions);
 
             LimelightHelpers.SetRobotOrientation(
                 "limelight",

@@ -46,7 +46,7 @@ object SwerveDriveConfigs {
             Math.PI,
             0.16,
             0.04,
-            limitSlew = true,
+            limitSlew = false,
             correctRot = false,
             fieldCentric = false
         )

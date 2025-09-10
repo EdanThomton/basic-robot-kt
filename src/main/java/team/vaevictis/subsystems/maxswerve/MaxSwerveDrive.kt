@@ -11,7 +11,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState
 import edu.wpi.first.wpilibj.DriverStation
 import edu.wpi.first.wpilibj.DriverStation.Alliance
 import edu.wpi.first.wpilibj2.command.Commands
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase
+import team.vaevictis.networktables.SubsystemTable
 import team.vaevictis.odometry.SwerveDriveOdometry
 import team.vaevictis.subsystems.DriveSubsystem
 
@@ -29,6 +30,8 @@ class MaxSwerveDrive(
     val odometry: SwerveDriveOdometry
 ): SubsystemBase(), DriveSubsystem {
 
+    private val table: SubsystemTable = SubsystemTable("MaxSwerveDrive");
+
     private val frontLeftWheel:  MaxWheelModule = MaxWheelModule(config.frontLeft);
     private val frontRightWheel: MaxWheelModule = MaxWheelModule(config.frontRight);
     private val backLeftWheel:   MaxWheelModule = MaxWheelModule(config.backLeft);
@@ -38,7 +41,6 @@ class MaxSwerveDrive(
 
     private var limitX: SlewRateLimiter = SlewRateLimiter(config.driverConfig.maxAccel);
     private var limitY: SlewRateLimiter = SlewRateLimiter(config.driverConfig.maxAccel);
-    private var limitRot: SlewRateLimiter = SlewRateLimiter(config.driverConfig.maxAngularAccel);
     private var limitSlew: Boolean = config.driverConfig.limitSlew;
 
     private var targetRot: Double = 0.0;
@@ -77,7 +79,6 @@ class MaxSwerveDrive(
         limitSlew = !limitSlew;
         limitX.reset(0.0);
         limitY.reset(0.0);
-        limitRot.reset(0.0);
     });
     /// Toggle Rotation Correction
     val toggleRotCorrection = Commands.runOnce({
@@ -112,7 +113,8 @@ class MaxSwerveDrive(
         if(limitSlew) {
             x = limitX.calculate(x);
             y = limitY.calculate(y);
-            rot = limitRot.calculate(rot);
+            // TODO: add rotation limiting
+            // (using WPIlib's built in slew limiter causes rotation to be slow and irresponsive)
         }
 
         val xSpeed = x * config.driverConfig.maxSpeedMPS;
@@ -178,6 +180,38 @@ class MaxSwerveDrive(
      * Subsystem periodic function
      */
     override fun periodic() {
-        odometry.update(positions);
+
+        val modulePositions = positions;
+
+        // update odometry
+        odometry.update(modulePositions);
+
+        // networktable fun!
+        if(modulePositions != null) {
+
+            table["frontLeftAngle"].setDouble(frontLeftWheel.state.speedMetersPerSecond);
+            table["frontLeftSpeed"].setDouble(frontLeftWheel.state.angle.radians);
+
+            table["frontRightAngle"].setDouble(frontRightWheel.state.speedMetersPerSecond);
+            table["frontRightSpeed"].setDouble(frontRightWheel.state.angle.radians);
+
+            table["backLeftAngle"].setDouble(backLeftWheel.state.speedMetersPerSecond);
+            table["backLeftSpeed"].setDouble(backLeftWheel.state.angle.radians);
+
+            table["backRightAngle"].setDouble(backRightWheel.state.speedMetersPerSecond);
+            table["backRightSpeed"].setDouble(backRightWheel.state.angle.radians);
+
+        }
+
+        table["heading"].setDouble(odometry.gyro.heading.radians);
+        table["pos/x"].setDouble(odometry.pose.x);
+        table["pos/y"].setDouble(odometry.pose.y);
+
+        table["targetedRot"].setDouble(targetRot);
+
+        table["isFieldCentric"].setBoolean(fieldCentric);
+        table["isCorrectingRot"].setBoolean(correctRot);
+        table["isLimitingSlew"].setBoolean(limitSlew);
+
     }
 }
