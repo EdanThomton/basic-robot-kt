@@ -4,6 +4,9 @@ import com.revrobotics.spark.config.ClosedLoopConfig
 import com.revrobotics.spark.config.SparkBaseConfig
 import com.revrobotics.spark.config.SparkMaxConfig
 
+/**
+ * SparkMaxConfigs for angle and speed motors
+ */
 object MaxSwerveMotorConfigs {
 
     val speedConfig: SparkMaxConfig = SparkMaxConfig();

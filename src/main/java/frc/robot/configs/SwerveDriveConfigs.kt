@@ -5,6 +5,9 @@ import team.vaevictis.subsystems.maxswerve.MaxSwerveConfig
 import team.vaevictis.subsystems.maxswerve.MaxSwerveDriverConfig
 import team.vaevictis.subsystems.maxswerve.MaxWheelConfig
 
+/**
+ * Active configs for a MaxSwerve chassis
+ */
 object SwerveDriveConfigs {
 
     const val WHEEL_POS = 0.33655;

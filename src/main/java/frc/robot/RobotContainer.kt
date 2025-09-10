@@ -5,15 +5,17 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition
 import edu.wpi.first.wpilibj2.command.RunCommand
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick
 import frc.robot.configs.SwerveDriveConfigs
-import team.vaevictis.odometry.NavXOdometry
+import team.vaevictis.odometry.LimelightOdometry
 import team.vaevictis.odometry.gyros.NavXGyro
 import team.vaevictis.subsystems.maxswerve.MaxSwerveDrive
 
-
+/**
+ * Overall robot container
+ */
 object RobotContainer {
 
     val navX: NavXGyro = NavXGyro();
-    val odometry: NavXOdometry = NavXOdometry(
+    val odometry: LimelightOdometry = LimelightOdometry(
         navX,
         arrayOf(
             SwerveModulePosition(0.0, Rotation2d(0.0)),
@@ -33,11 +35,19 @@ object RobotContainer {
         configureBindings()
     }
 
+    /**
+     * Apply a deadband zone to an input
+     * @param input Input to apply deadband to
+     * @param deadband deadband zone
+     */
     private fun applyDeadband(input: Double, deadband: Double): Double {
         if(Math.abs(input) < deadband) return 0.0;
         return input;
     }
 
+    /**
+     * Configure joystick bindings
+     */
     private fun configureBindings() {
 
         maxSwerveDrive.defaultCommand = RunCommand({

@@ -2,6 +2,9 @@ package team.vaevictis.subsystems.maxswerve
 
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics
 
+/**
+ * Overall config for MaxSwerve chassis
+ */
 class MaxSwerveConfig(
     val frontLeft: MaxWheelConfig,
     val frontRight: MaxWheelConfig,
@@ -17,6 +20,9 @@ class MaxSwerveConfig(
     );
 };
 
+/**
+ * Driver config for MaxSwerve chassis
+ */
 data class MaxSwerveDriverConfig(
     val maxAccel: Double,
     val maxSpeedMPS: Double,

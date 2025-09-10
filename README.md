@@ -4,8 +4,10 @@ of autonomous pathfinding.
 
 ## TODO:
 - Swerve Drive
-  - Autoalign field-centric (for auto)
   - Autoalign target-centric 
     - both LL + photon?
     - needed for piece/april tag targeting
-  - 
+  - Fix drifting when using rotation correction
+  - Implement slew limiting for rotation
+- Pathplanner
+  - Implement Pathplanner

@@ -1,5 +1,8 @@
 package team.vaevictis.subsystems.maxswerve
 
+/**
+ * Constants for each MaxSwerve module
+ */
 object MaxSwerveConstants {
 
     object WheelConstants {

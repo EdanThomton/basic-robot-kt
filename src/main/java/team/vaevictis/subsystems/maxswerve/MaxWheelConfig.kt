@@ -2,6 +2,9 @@ package team.vaevictis.subsystems.maxswerve
 
 import edu.wpi.first.math.geometry.Translation2d
 
+/**
+ * Single MaxSwerve module config
+ */
 data class MaxWheelConfig(
     val speedID: Int, val angleID: Int,
     val p: Double, val i: Double, val d: Double,

@@ -3,6 +3,9 @@ package team.vaevictis.odometry
 import edu.wpi.first.math.geometry.Rotation2d
 import edu.wpi.first.math.geometry.Rotation3d
 
+/**
+ * Gyro Interface
+ */
 interface Gyro {
 
     fun zeroHeading();

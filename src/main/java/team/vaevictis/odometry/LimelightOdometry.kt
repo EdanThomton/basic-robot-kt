@@ -10,7 +10,10 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation
 import team.vaevictis.odometry.limelight.LimelightHelpers
 
-class NavXOdometry(
+/**
+ * Field-space odometry using limelight april-tag measurements
+ */
+class LimelightOdometry(
     override val gyro: Gyro,
     private var modulePositions: Array<SwerveModulePosition>,
     swerveKinematics: SwerveDriveKinematics
@@ -30,23 +33,32 @@ class NavXOdometry(
         gyro.zeroHeading();
     }
 
+    /// field-space pose
     override val pose: Pose2d
         get() = poseEstimator.estimatedPosition;
 
+    /**
+     * Reset pose to a given pose
+     * @param newPose Updates pose
+     */
     override fun resetPose(newPose: Pose2d) {
         gyro.setHeadingOffset(newPose.rotation);
         poseEstimator.resetPosition(gyro.heading, modulePositions, newPose);
     }
 
+    /**
+     * Update odometry with swerve data
+     * @param modulePositions Array of updated module positions
+     */
     override fun update(modulePositions: Array<SwerveModulePosition>?) {
 
         if(modulePositions != null) {
-            this@NavXOdometry.modulePositions = modulePositions;
+            this@LimelightOdometry.modulePositions = modulePositions;
         }
 
         if(DriverStation.isEnabled()) {
 
-            poseEstimator.update(gyro.heading, this@NavXOdometry.modulePositions);
+            poseEstimator.update(gyro.heading, this@LimelightOdometry.modulePositions);
 
             LimelightHelpers.SetRobotOrientation(
                 "limelight",
