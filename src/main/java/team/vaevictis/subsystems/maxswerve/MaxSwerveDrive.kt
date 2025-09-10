@@ -76,21 +76,21 @@ class MaxSwerveDrive(
         };
 
     /// Toggle Slew Limiting
-    val toggleSlewLimiter: Command = runOnce {
+    val toggleSlewLimiter: Command get() = runOnce {
         limitSlew = !limitSlew;
         limitX.reset(0.0);
         limitY.reset(0.0);
     }
     /// Toggle Rotation Correction
-    val toggleRotCorrection: Command = runOnce {
+    val toggleRotCorrection: Command get() = runOnce {
         correctRot = !correctRot;
     }
     /// Toggle Fieldcentric Driving
-    val toggleFieldcentric: Command = runOnce {
+    val toggleFieldcentric: Command get() = runOnce {
         fieldCentric = !fieldCentric;
     }
     /// Set Fieldcentrism
-    val resetFieldcentric: Command = runOnce {
+    val resetFieldcentric: Command get() = runOnce {
         odometry.gyro.zeroHeading();
         targetRot = odometry.gyro.heading.radians;
     }
