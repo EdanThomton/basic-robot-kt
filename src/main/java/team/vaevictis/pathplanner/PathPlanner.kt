@@ -74,6 +74,10 @@ object PathPlanner {
         }
     }
 
+    /**
+     * Create a command to follow a full Autonomous routine
+     * @param autoFilename Name of the auto file
+     */
     fun auto(autoFilename: String): Command = PathPlannerAuto(autoFilename)
 
 }
