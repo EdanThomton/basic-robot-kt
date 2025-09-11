@@ -7,7 +7,8 @@ of autonomous pathfinding.
   - Autoalign target-centric 
     - both LL + photon?
     - needed for piece/april tag targeting
-  - Fix drifting when using rotation correction
+  - Fix drifting when using rotation correction (in meeting)
   - Implement slew limiting for rotation
 - Pathplanner
-  - Implement Pathplanner
+  - Implement NamedCommands framework
+  - Implement Teleop pathfinding
