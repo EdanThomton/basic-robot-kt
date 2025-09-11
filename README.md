@@ -8,7 +8,6 @@ of autonomous pathfinding.
     - both LL + photon?
     - needed for piece/april tag targeting
   - Fix drifting when using rotation correction (in meeting)
-  - Implement slew limiting for rotation
 - Pathplanner
   - Implement NamedCommands framework
   - Implement Teleop pathfinding

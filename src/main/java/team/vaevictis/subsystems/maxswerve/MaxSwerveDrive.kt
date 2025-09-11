@@ -16,6 +16,8 @@ import team.vaevictis.networktables.NetworkTableInstanceKT
 import team.vaevictis.networktables.NetworkTableKT
 import team.vaevictis.odometry.SwerveDriveOdometry
 import team.vaevictis.subsystems.HolonomicDriveSubsystem
+import kotlin.math.abs
+import kotlin.math.sign
 
 /**
  * Swerve drive subsystem for a MaxSwerve chassis
@@ -42,6 +44,7 @@ class MaxSwerveDrive(
 
     private var limitX: SlewRateLimiter = SlewRateLimiter(config.driverConfig.maxAccel)
     private var limitY: SlewRateLimiter = SlewRateLimiter(config.driverConfig.maxAccel)
+    private var previousAngularVelocity: Double = 0.0
     private var limitSlew: Boolean = config.driverConfig.limitSlew
 
     private var targetRot: Double = 0.0
@@ -116,9 +119,14 @@ class MaxSwerveDrive(
         if(limitSlew) {
             x = limitX.calculate(x)
             y = limitY.calculate(y)
-            // TODO: add rotation limiting
-            // (using WPIlib's built in slew limiter causes rotation to be slow and irresponsive)
         }
+
+        // cap out rotational acceleration at a specific acceleration
+        val rotAccel = rot - previousAngularVelocity
+        if(abs(rotAccel) > config.driverConfig.maxAngularAccel) {
+            rot = previousAngularVelocity + config.driverConfig.maxAngularAccel * sign(rotAccel)
+        }
+        previousAngularVelocity = rot;
 
         val xSpeed = x * config.driverConfig.maxSpeedMPS
         val ySpeed = y * config.driverConfig.maxSpeedMPS
