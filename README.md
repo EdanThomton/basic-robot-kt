@@ -9,5 +9,5 @@ of autonomous pathfinding.
     - needed for piece/april tag targeting
   - Fix drifting when using rotation correction (in meeting)
 - Pathplanner
-  - Implement NamedCommands framework
   - Implement Teleop pathfinding
+  - Implement Trigger framework
