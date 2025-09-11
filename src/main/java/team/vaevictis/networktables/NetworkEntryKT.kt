@@ -114,8 +114,7 @@ class NetworkEntryKT (
 
     /** Entry as an array of SwerveModuleStates */
     var swerveModuleStateArray: Array<SwerveModuleState>
-        get() = table.getStructArrayTopic(entryName, SwerveModuleState.struct)
-            .subscribe(emptyArray<SwerveModuleState>()).get()
+        get() = table.getStructArrayTopic(entryName, SwerveModuleState.struct).subscribe(emptyArray<SwerveModuleState>()).get()
         set(value) {
             table.getStructArrayTopic(entryName, SwerveModuleState.struct).publish().set(value)
         }

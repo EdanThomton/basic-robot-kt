@@ -11,4 +11,4 @@ data class MaxWheelConfig(
     val ks: Double, val kv: Double, val ka: Double,
     val chassisAngleOffset: Double,
     val chassisLocation: Translation2d
-);
+)

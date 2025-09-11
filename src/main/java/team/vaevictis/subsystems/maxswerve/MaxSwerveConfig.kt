@@ -17,8 +17,8 @@ class MaxSwerveConfig(
         frontRight.chassisLocation,
         backLeft.chassisLocation,
         backRight.chassisLocation
-    );
-};
+    )
+}
 
 /**
  * Driver config for MaxSwerve chassis
@@ -34,4 +34,4 @@ data class MaxSwerveDriverConfig(
     val limitSlew: Boolean,
     val correctRot: Boolean,
     val fieldCentric: Boolean
-);
+)

@@ -10,7 +10,7 @@ import team.vaevictis.subsystems.maxswerve.MaxWheelConfig
  */
 object SwerveDriveConfigs {
 
-    const val WHEEL_POS = 0.33655;
+    const val WHEEL_POS = 0.33655
 
     val SWERVE_CONFIG = MaxSwerveConfig(
         MaxWheelConfig(
@@ -53,6 +53,6 @@ object SwerveDriveConfigs {
             correctRot = false,
             fieldCentric = false
         )
-    );
+    )
 
 }

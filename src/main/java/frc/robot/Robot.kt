@@ -7,12 +7,14 @@ import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.util.WPILibVersion
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.CommandScheduler
+import edu.wpi.first.wpilibj2.command.Commands
+import team.vaevictis.pathplanner.PathPlanner
 
 /**
  * Base Robot Class, handles command/autonomous scheduling as well as container initialization
  */
 object Robot : TimedRobot() {
-    //private var autonomousCommand: Command = Autos.defaultAutonomousCommand
+    private var autonomousCommand: Command = Commands.none();
 
     init {
         HAL.report(
@@ -20,23 +22,28 @@ object Robot : TimedRobot() {
             tInstances.kLanguage_Kotlin,
             0,
             WPILibVersion.Version
-        );
-        RobotContainer;
+        )
+
+        // load RobotContainer
+        RobotContainer
     }
 
     override fun robotPeriodic() {
-        CommandScheduler.getInstance().run();
+        CommandScheduler.getInstance().run()
     }
 
     override fun autonomousInit() {
-        // TODO: add autonomous command initializer
+        // use the PathPlanner autonomous command
+        autonomousCommand = PathPlanner.autonomousCommand;
+
+        autonomousCommand.schedule();
     }
 
     override fun teleopInit() {
-        //autonomousCommand.cancel()
+        autonomousCommand.cancel()
     }
 
     override fun testInit() {
-        CommandScheduler.getInstance().cancelAll();
+        CommandScheduler.getInstance().cancelAll()
     }
 }

@@ -8,9 +8,9 @@ import edu.wpi.first.math.geometry.Rotation3d
  */
 interface Gyro {
 
-    fun zeroHeading();
-    fun setHeadingOffset(value: Rotation2d);
-    val heading: Rotation2d;
-    val orientation: Rotation3d;
+    fun zeroHeading()
+    fun setHeadingOffset(value: Rotation2d)
+    val heading: Rotation2d
+    val orientation: Rotation3d
 
 }
