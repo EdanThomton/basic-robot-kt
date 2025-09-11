@@ -126,7 +126,7 @@ class MaxSwerveDrive(
         if(abs(rotAccel) > config.driverConfig.maxAngularAccel) {
             rot = previousAngularVelocity + config.driverConfig.maxAngularAccel * sign(rotAccel)
         }
-        previousAngularVelocity = rot;
+        previousAngularVelocity = rot
 
         val xSpeed = x * config.driverConfig.maxSpeedMPS
         val ySpeed = y * config.driverConfig.maxSpeedMPS

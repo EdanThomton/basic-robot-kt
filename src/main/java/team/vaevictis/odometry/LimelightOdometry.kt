@@ -53,12 +53,12 @@ class LimelightOdometry(
     override fun update(modulePositions: Array<SwerveModulePosition>?) {
 
         if(modulePositions != null) {
-            this@LimelightOdometry.modulePositions = modulePositions
+            this.modulePositions = modulePositions
         }
 
         if(DriverStation.isEnabled()) {
 
-            poseEstimator.update(gyro.heading, this@LimelightOdometry.modulePositions)
+            poseEstimator.update(gyro.heading, this.modulePositions)
 
             LimelightHelpers.SetRobotOrientation(
                 "limelight",

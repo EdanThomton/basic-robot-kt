@@ -4,9 +4,11 @@ import edu.wpi.first.math.geometry.Rotation2d
 import edu.wpi.first.math.kinematics.SwerveModulePosition
 import edu.wpi.first.wpilibj2.command.RunCommand
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick
+import frc.robot.commands.ExampleCommand
 import frc.robot.configs.SwerveDriveConfigs
 import team.vaevictis.odometry.LimelightOdometry
 import team.vaevictis.odometry.gyros.NavXGyro
+import team.vaevictis.pathplanner.NamedCommands
 import team.vaevictis.pathplanner.PathPlanner
 import team.vaevictis.subsystems.maxswerve.MaxSwerveDrive
 import kotlin.math.abs
@@ -38,6 +40,8 @@ object RobotContainer {
      */
     init {
 
+        NamedCommands["ExampleCommand"] = ExampleCommand
+
         // configure pathplanner with MaxSwerve
         PathPlanner.configureHolonomic(maxSwerveDrive)
 
@@ -53,6 +57,7 @@ object RobotContainer {
         leftJoystick.button(2).onTrue(maxSwerveDrive.toggleRotCorrection)
         leftJoystick.button(3).onTrue(maxSwerveDrive.toggleSlewLimiter)
         rightJoystick.button(4).onTrue(maxSwerveDrive.resetFieldcentric)
+
     }
 
     /**
