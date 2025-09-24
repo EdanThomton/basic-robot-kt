@@ -34,7 +34,7 @@ object Robot : TimedRobot() {
 
     override fun autonomousInit() {
         // use the PathPlanner autonomous command
-        autonomousCommand = PathPlanner.autonomousCommand;
+        autonomousCommand = RobotContainer.autonomousCommand
 
         autonomousCommand.schedule();
     }

@@ -34,11 +34,18 @@ class MaxSwerveDrive(
 ): SubsystemBase(), HolonomicDriveSubsystem {
 
     private val table: NetworkTableKT = NetworkTableInstanceKT.DEFAULT["subsystems/MaxSwerveDrive"]
+    private var swerveStatesNT    by table["swerveStates"].swerveModuleStateArray
+    private var headingNT         by table["heading"].double
+    private var poseNT            by table["pose"].pose2d
+    private var targetedRotNT     by table["targetedRot"].double
+    private var isFieldCentricNT  by table["isFieldCentric"].boolean
+    private var isCorrectingRotNT by table["isCorrectingRot"].boolean
+    private var isLimitingSlewNT  by table["isLimitingSlew"].boolean
 
-    private val frontLeftWheel:  MaxWheelModule = MaxWheelModule(config.frontLeft)
+    private val frontLeftWheel: MaxWheelModule = MaxWheelModule(config.frontLeft)
     private val frontRightWheel: MaxWheelModule = MaxWheelModule(config.frontRight)
-    private val backLeftWheel:   MaxWheelModule = MaxWheelModule(config.backLeft)
-    private val backRightWheel:  MaxWheelModule = MaxWheelModule(config.backRight)
+    private val backLeftWheel: MaxWheelModule = MaxWheelModule(config.backLeft)
+    private val backRightWheel: MaxWheelModule = MaxWheelModule(config.backRight)
 
     private var speeds: ChassisSpeeds = ChassisSpeeds(0.0, 0.0, 0.0)
 
@@ -196,21 +203,20 @@ class MaxSwerveDrive(
         odometry.update(positions)
 
         // networktable fun!
-        table["swerveStates"].swerveModuleStateArray = arrayOf(
+        swerveStatesNT = arrayOf(
             frontLeftWheel.state,
             frontRightWheel.state,
             backLeftWheel.state,
             backRightWheel.state
         )
 
-        table["heading"].double = odometry.gyro.heading.radians
-        table["pose"].pose2d = odometry.pose
+        headingNT = odometry.gyro.heading.radians
+        poseNT = odometry.pose
 
-        table["targetedRot"].double = targetRot
+        targetedRotNT = targetRot
 
-        table["isFieldCentric"].boolean = fieldCentric
-        table["isCorrectingRot"].boolean = correctRot
-        table["isLimitingSlew"].boolean = limitSlew
-
+        isFieldCentricNT = fieldCentric
+        isCorrectingRotNT = correctRot
+        isLimitingSlewNT = limitSlew
     }
 }

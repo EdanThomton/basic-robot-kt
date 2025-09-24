@@ -2,7 +2,10 @@ package frc.robot.commands
 
 import edu.wpi.first.wpilibj2.command.Command
 
-object ExampleCommand: Command() {
+/**
+ * Example 1s waiting command
+ */
+class ExampleCommand: Command() {
 
     var count = 0
 
@@ -19,6 +22,6 @@ object ExampleCommand: Command() {
         println("Example Command Ended")
     }
 
-    override fun isFinished(): Boolean = count > 250
+    override fun isFinished(): Boolean = count > 50
 
 }

@@ -2,6 +2,8 @@ package frc.robot
 
 import edu.wpi.first.math.geometry.Rotation2d
 import edu.wpi.first.math.kinematics.SwerveModulePosition
+import edu.wpi.first.wpilibj2.command.Command
+import edu.wpi.first.wpilibj2.command.Commands
 import edu.wpi.first.wpilibj2.command.RunCommand
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick
 import frc.robot.commands.ExampleCommand
@@ -9,7 +11,7 @@ import frc.robot.configs.SwerveDriveConfigs
 import team.vaevictis.odometry.LimelightOdometry
 import team.vaevictis.odometry.gyros.NavXGyro
 import team.vaevictis.pathplanner.NamedCommands
-import team.vaevictis.pathplanner.PathPlanner
+//import team.vaevictis.pathplanner.PathPlanner
 import team.vaevictis.subsystems.maxswerve.MaxSwerveDrive
 import kotlin.math.abs
 
@@ -40,10 +42,10 @@ object RobotContainer {
      */
     init {
 
-        NamedCommands["ExampleCommand"] = ExampleCommand
+        NamedCommands["ExampleCommand"] = ExampleCommand()
 
         // configure pathplanner with MaxSwerve
-        PathPlanner.configureHolonomic(maxSwerveDrive)
+        //PathPlanner.configureHolonomic(maxSwerveDrive)
 
         maxSwerveDrive.defaultCommand = RunCommand({
             maxSwerveDrive.drive(
@@ -51,7 +53,7 @@ object RobotContainer {
                 applyDeadband(leftJoystick.x, 0.05),
                 applyDeadband(-rightJoystick.x, 0.05)
             )
-        },maxSwerveDrive)
+        }, maxSwerveDrive)
 
         leftJoystick.button(1).onTrue(maxSwerveDrive.toggleFieldcentric)
         leftJoystick.button(2).onTrue(maxSwerveDrive.toggleRotCorrection)
@@ -59,6 +61,8 @@ object RobotContainer {
         rightJoystick.button(4).onTrue(maxSwerveDrive.resetFieldcentric)
 
     }
+
+    val autonomousCommand: Command get() = Commands.none();
 
     /**
      * Apply a deadband zone to an input

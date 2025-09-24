@@ -21,9 +21,7 @@ class NetworkTableInstanceKT (
     )
 
     operator fun get(table: String, entry: String): NetworkEntryKT = NetworkEntryKT(
-        instance.getTopic("/$table/$entry").getGenericEntry(),
-        instance.getTable(table),
-        entry
+        instance.getTable(table), entry
     )
 
 }

@@ -10,9 +10,7 @@ class NetworkTableKT (
 ) {
 
     operator fun get(entry: String): NetworkEntryKT = NetworkEntryKT(
-        table.getTopic(entry).getGenericEntry(),
-        table,
-        entry
+        table, entry
     )
 
 }
