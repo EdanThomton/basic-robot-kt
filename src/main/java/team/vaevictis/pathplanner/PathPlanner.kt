@@ -16,7 +16,7 @@ import team.vaevictis.subsystems.HolonomicDriveSubsystem
 /**
  * PathPlanner utilities
  */
-object PathPlanner {
+class PathPlanner {
 
     val autoChooser: SendableChooser<Command> = AutoBuilder.buildAutoChooser()
 

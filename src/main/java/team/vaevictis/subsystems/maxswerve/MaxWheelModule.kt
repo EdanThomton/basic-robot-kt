@@ -79,6 +79,8 @@ class MaxWheelModule(
 
     private fun setWheelPosition(speed: Double, angle: Double) {
         var realSpeed: Double = speed
+
+        // TODO: see if this is needed
         if(abs(speed) < 0.1) {
             realSpeed = 0.1
         }

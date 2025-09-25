@@ -11,8 +11,10 @@ import frc.robot.configs.SwerveDriveConfigs
 import team.vaevictis.odometry.LimelightOdometry
 import team.vaevictis.odometry.gyros.NavXGyro
 import team.vaevictis.pathplanner.NamedCommands
+import team.vaevictis.pathplanner.PathPlanner
 //import team.vaevictis.pathplanner.PathPlanner
 import team.vaevictis.subsystems.maxswerve.MaxSwerveDrive
+import java.nio.file.Path
 import kotlin.math.abs
 
 /**
@@ -37,6 +39,8 @@ object RobotContainer {
     val rightJoystick: CommandJoystick = CommandJoystick(1)
     val altJoystick: CommandJoystick = CommandJoystick(2)
 
+    val pathPlanner: PathPlanner = PathPlanner()
+
     /**
      * Configure joystick bindings
      */
@@ -45,7 +49,7 @@ object RobotContainer {
         NamedCommands["ExampleCommand"] = ExampleCommand()
 
         // configure pathplanner with MaxSwerve
-        //PathPlanner.configureHolonomic(maxSwerveDrive)
+        pathPlanner.configureHolonomic(maxSwerveDrive)
 
         maxSwerveDrive.defaultCommand = RunCommand({
             maxSwerveDrive.drive(
